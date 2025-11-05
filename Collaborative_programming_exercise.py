@@ -8,3 +8,6 @@ def one_to_10():
         
 def hello():
     print("Hi this is Mariam!") #edit
+
+def BasicPrint():
+    print("Hello World!") #edit
