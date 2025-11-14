@@ -5,3 +5,9 @@ def one_to_10():
     for i in range (10):
         i+=1
         print(i)
+        
+def hello():
+    print("Hi this is Mariam!") #edit
+
+def BasicPrint():
+    print("Hello World!") #edit
