@@ -1,28 +1,20 @@
 import random
 
 def zombie_interaction(player, zombie, choice):
-    """ What happens during a zombie interaction
+    """
+    Handles a zombie encounter where the player can choose to attack or flee.
 
     Args:
-        player (dict): Information about the player(health,inventory,and damage)
-        zombie (dict): Information about the zombie (strength,health)
-        choice (str): Action the player takes. ("use item","attack","flee")
+        player (dict): Information about the player (health and damage)
+        zombie (dict): Information about the zombie (health and strength)
+        choice (str): Action the player takes ("attack" or "flee")
 
     Returns:
-        tuple: Updated info about player, zombie, and info about interaction
+        tuple: Updated player dictionary, updated zombie dictionary, and a summary string describing the outcome
     """
-    # Use item
-    if choice == "use item":
-        if player["inventory"]:
-            item = player["inventory"][0]
-            player["health"] += 20
-            player["inventory"].pop(0)
-            summary = f"You used {item} and healed 20 HP."
-        else:
-            summary = "You have no items to use!"
-
-    # Attack
-    elif choice == "attack":
+    
+    # Attack choice
+    if choice == "attack":
         zombie["health"] -= player["damage"]
         if zombie["health"] <= 0:
             zombie["health"] = 0
@@ -31,21 +23,19 @@ def zombie_interaction(player, zombie, choice):
             player["health"] -= zombie["strength"]
             if player["health"] < 0:
                 player["health"] = 0
-            summary = f"You attacked for {player['damage']} damage. Zombie attacks back for {zombie['strength']} damage."
-
-    # Flee
-    else: 
-        chance = random.choice([True, False])
-        if chance:
-            summary = "You have successfully fled from the zombie, how lucky!"
+            summary = f"You attacked the zombie for {player['damage']} damage. Zombie attacks back for {zombie['strength']} damage."
+    
+    # Flee choice
+    elif choice == "flee":
+        success = random.choice([True, False])
+        if success:
+            summary = "You successfully fled from the zombie!"
         else:
             player["health"] -= zombie["strength"]
             if player["health"] < 0:
                 player["health"] = 0
             summary = f"You tried to flee but failed. Zombie attacks for {zombie['strength']} damage."
-
-    # Return updated player info (tuple unpacking)
+    
+    # Return the updated info
     return player, zombie, summary
-
-         
     
