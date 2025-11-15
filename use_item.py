@@ -9,14 +9,18 @@ def use_item(item, target):
   """
   if target == user:
     if item = health:
-      player_health += item
+      player.health += item
+    elif item == food:
+      player.hunger += item
     else:
       print(f"item can not be used on player")
   elif target == zombie:
     if item = weapon:
-      zombie_health -= item
+      zombie.health -= item
     else:
       print(f"item can not be used on zombie")
+  elif target == environment:
+
   else:
     print(f"An item can not be used on that target")
 return None
