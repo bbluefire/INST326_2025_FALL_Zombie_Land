@@ -1,6 +1,16 @@
 import random
 
 def zombie_interaction(player, zombie, choice):
+    """ What happens during a zombie interaction
+
+    Args:
+        player (dict): Information about the player(health,inventory,and damage)
+        zombie (dict): Information about the zombie (strength,health)
+        choice (str): Action the player takes. ("use item","attack","flee")
+
+    Returns:
+        tuple: Updated info about player, zombie, and info about interaction
+    """
     # Use item
     if choice == "use item":
         if player["inventory"]:
@@ -34,7 +44,7 @@ def zombie_interaction(player, zombie, choice):
                 player["health"] = 0
             summary = f"You tried to flee but failed. Zombie attacks for {zombie['strength']} damage."
 
-    # Return updated player info
+    # Return updated player info (tuple unpacking)
     return player, zombie, summary
 
          
