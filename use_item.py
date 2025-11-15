@@ -1,5 +1,5 @@
 def use_item(item, target):
-  """ Item use function that will be called in other areas like during a zombie interaction in order to do damage
+  """ Item use function that will be called in other areas like during a zombie interaction in order to do damage or heal the player
   Args:
       item(obj): an item that has either a heal amount or a damage amount based on what the item is
       target(obj): Either an instance of a player class or a zombie class
