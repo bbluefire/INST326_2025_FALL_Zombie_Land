@@ -1,5 +1,5 @@
 def use_item(item, target):
-  """ Item use function that will be called in other areas like during a zombie interaction in order to do damage
+  """ Item use function that will be called in other areas like during a zombie interaction in order to do damage or heal the player
   Args:
       item(obj): an item that has either a heal amount or a damage amount based on what the item is
       target(obj): Either an instance of a player class or a zombie class
@@ -9,14 +9,18 @@ def use_item(item, target):
   """
   if target == user:
     if item = health:
-      player_health += item
+      player.health += item
+    elif item == food:
+      player.hunger += item
     else:
       print(f"item can not be used on player")
   elif target == zombie:
     if item = weapon:
-      zombie_health -= item
+      zombie.health -= item
     else:
       print(f"item can not be used on zombie")
+  elif target == environment:
+
   else:
     print(f"An item can not be used on that target")
 return None
