@@ -1,0 +1,21 @@
+(bethanys idea, feel free to add or change it)
+(this will be deleted before we turn it in lol)
+5 rounds
+    if player stays alive, player wins
+messages (command-line arguments) goes to player saying
+    where the zombies are, where they are, where items near them are
+    asks what the player wants to do
+        1. walk
+            a. to hit zombie
+            b. to pick something up
+            c. run away from the zombies 
+        2. stand still
+            a. if zombie is in range
+                1a. they can hit
+                2a. they can do nothing and take damage
+                3a. use an item (players cant use items while walking)
+            b. pick up an item in range
+classes:
+    zombie class (everything for a zombie)
+    player class (all player interactions + items)
+
