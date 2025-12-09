@@ -44,14 +44,14 @@ def use_item(player):
     return 0
     
 
-def zombie_interaction(player, zombie, choice):
+def zombie_interaction(player, zombie, new_strength):
     """
     Handles a zombie encounter where the player can choose to attack or flee.
 
     Args:
         player (dict): Information about the player (health and damage)
         zombie (dict): Information about the zombie (health and strength)
-        choice (str): Action the player takes ("attack" or "flee")
+        new_strength (int): new player damage
 
     Returns:
         tuple: Updated player dictionary, updated zombie dictionary, and a summary string describing the outcome
@@ -110,12 +110,13 @@ def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increa
 ##what happens in each round
 def play_round(player, round_num):
   zombie = spawn_zombies(round_num)
+  boosted_strength = use_item(player)
 
   #here will have choice to use an item
   while True:
      print f"Choose Action: (1) attack or (2) flee"
      choice = input("Your Chouce: ").strip()
-     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, choice)
+     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, boosted_strength)
      if not player_alive:
        return False, False, False
      if player_ran:
