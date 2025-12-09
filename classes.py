@@ -60,12 +60,13 @@ def zombie_interaction(player, zombie, choice):
     
     # Return the updated info
     return player, zombie, summary
+  ##determining zombie spawn
 def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increase=5):
   health = start_health + round_num * 5
   strength = start_strength + (round_num * strength_increase)
   print f"New Zombie Alert! Health = {health} Strength = {strength}"
   return Zombie(health, strength)
-
+##what happens in each round
 def play_round(player, round_num):
   zombie = spawn_zombies(round_num)
   while True:
@@ -79,6 +80,8 @@ def play_round(player, round_num):
      if not zombie_alive:
        return True, True, False
 
+
+##running the game on x rounds
 def run_game(rounds=5):
   player = Player(health=100, strength=20)
   score = 0
