@@ -79,6 +79,21 @@ def play_round(player, round_num):
      if not zombie_alive:
        return True, True, False
 
-
+def run_game(rounds=5):
+  player = Player(health=100, strength=20)
+  score = 0
+  print("Game Start!")
+  for round_num in range(1, rounds + 1):
+    print f"Round {round_num}"
+    player_alive, killed_zombie, ran = play_round(player, round_num)
+    if killed_zombie:
+      score += 1
+      print f"Zombie killed score = {score}"
+      if not player_alive:
+        print f"You lost, final score: {score}"
+        return
+      if ran:
+        print("you ran away, round over")
+  print f"Game over, you survived {round}'s with a score of {score}"
 
   
