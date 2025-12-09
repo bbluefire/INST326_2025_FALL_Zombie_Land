@@ -5,6 +5,9 @@ class PLayer:
   def __init__(self, health, strength):
     self.health = health
     self.strength = strength
+    ##here will be the self.inventory which will be a dictionary of weapons with certain damage and healthkit which will add certain amount of health
+    self.inventory = {"weapons": [], "healthkits": []}
+    
   def isalive(self):
     retrun self.heatlh > 0
 
@@ -15,7 +18,31 @@ class Zombie:
   def isalive(self):
     return self.health > 0
   
+def use_item(player):
+  print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
+  choice = input("Your choice: ").strip()
+  if choice == "Weapon":
+    if player.inventory["weapons"]:
+      player.inventory["weapons'].pop(0)
+      print("You used a weapons for + 10 strength")
+      return 10
+    else:
+      print("You have no weapons")
+      return 0
 
+  elif choice == "Healthkit":
+    if player.inventory["healthkits"]:
+       player.inventory["healthkits"].pop(0)
+       player.health += 20
+       print f"You used a health kit for + 20 health, new health it {player.health}"
+      return 0
+    else:
+      print("You have no healthkits")
+      return 0 
+  else:
+    print("You fight normally")
+    return 0
+    
 
 def zombie_interaction(player, zombie, choice):
     """
@@ -57,18 +84,34 @@ def zombie_interaction(player, zombie, choice):
                 player.health = 0
             print f"You tried to flee but failed. Zombie attacks for {zombie.strength} damage."
         return True, zombie.isalive(), True
-    
     # Return the updated info
     return player, zombie, summary
-  ##determining zombie spawn
+
+
+def generate_item():
+  #section for generating random loot with random benefits
+  loot_type = random.choice(["weapon", "healthkit"])
+``if loot_type == "weapon":
+    print("You found a weapon")
+    player.inventory["weapons"].append("weapon")
+  else:
+    print("you found a healthkit")
+    player.inventory["healthkits"].append("healthkit")
+  
+##determining zombie spawn
 def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increase=5):
   health = start_health + round_num * 5
   strength = start_strength + (round_num * strength_increase)
   print f"New Zombie Alert! Health = {health} Strength = {strength}"
   return Zombie(health, strength)
+
+
+
 ##what happens in each round
 def play_round(player, round_num):
   zombie = spawn_zombies(round_num)
+
+  #here will have choice to use an item
   while True:
      print f"Choose Action: (1) attack or (2) flee"
      choice = input("Your Chouce: ").strip()
