@@ -68,4 +68,17 @@ def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increa
 
 def play_round(player, round_num):
   zombie = spawn_zombies(round_num)
+  while True:
+     print f"Choose Action: (1) attack or (2) flee"
+     choice = input("Your Chouce: ").strip()
+     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, choice)
+     if not player_alive:
+       return False, False, False
+     if player_ran:
+       return True, False, True
+     if not zombie_alive:
+       return True, True, False
+
+
+
   
