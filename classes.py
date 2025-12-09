@@ -29,31 +29,43 @@ def zombie_interaction(player, zombie, choice):
     Returns:
         tuple: Updated player dictionary, updated zombie dictionary, and a summary string describing the outcome
     """
-    
+    print f"Choose Action: (1) attack or (2) flee"
+    choice = input("Your Chouce: ").strip()
     # Attack choice
     if choice == "attack":
         zombie.health -= player.strength
         if zombie.health <= 0:
             zombie.health = 0
-            summary = f"You attacked the zombie for {player.strength} damage. Zombie is dead!"
+            print f"You attacked the zombie for {player.strength} damage. Zombie is dead!"
+            return True, False, False
         else:
             player.heatlh -= zombie.strength
+            print f"You attacked the zombie for {player.strength} damage. Zombie attacks back for {zombie.strength} damage."
             if player.heatlh < 0:
                 player.heatlh = 0
-            summary = f"You attacked the zombie for {player.strength} damage. Zombie attacks back for {zombie.strength} damage."
-    
+                print("The zombie has killed you!")
+                return False, True, False
+            return True, True, False  
     # Flee choice
     elif choice == "flee":
         success = random.choice([True, False])
         if success:
-            summary = "You successfully fled from the zombie!"
+            print f"You successfully fled from the zombie!"
         else:
             player.health -= zombie.strength
             if player.health < 0:
                 player.health = 0
-            summary = f"You tried to flee but failed. Zombie attacks for {zombie.strength} damage."
+            print f"You tried to flee but failed. Zombie attacks for {zombie.strength} damage."
+        return True, zombie.isalive(), True
     
     # Return the updated info
     return player, zombie, summary
+def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increase=5):
+  health = start_health + round_num * 5
+  strength = start_strength + (round_num * strength_increase)
+  print f"New Zombie Alert! Health = {health} Strength = {strength}"
+  return Zombie(health, strength)
 
-
+def play_round(player, round_num):
+  zombie = spawn_zombies(round_num)
+  
