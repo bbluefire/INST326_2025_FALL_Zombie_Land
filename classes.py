@@ -1,7 +1,8 @@
 #different classes we will use in our program
 import random
 
-class PLayer:
+class Player:
+  
   def __init__(self, health, strength):
     self.health = health
     self.strength = strength
@@ -21,7 +22,7 @@ class Zombie:
 def use_item(player):
   print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
   choice = input("Your choice: ").strip()
-  if choice == "Weapon":
+  if choice in ("1", "weapon"):
     if player.inventory["weapons"]:
       player.inventory["weapons"].pop(0)
       print("You used a weapons for + 10 strength")
@@ -30,12 +31,11 @@ def use_item(player):
       print("You have no weapons")
       return 0
 
-  elif choice == "Healthkit":
-    
+  elif choice in ("2", "healthkit"):
     if player.inventory["healthkits"]:
        player.inventory["healthkits"].pop(0)
        player.health += 20
-       print (f"You used a health kit for + 20 health, new health it {player.health}")
+       print (f"You used a health kit for + 20 health, new health is {player.health}")
        return 0
     else:
       print("You have no healthkits")
@@ -57,25 +57,27 @@ def zombie_interaction(player, zombie, new_strength):
     Returns:
         tuple: Updated player dictionary, updated zombie dictionary, and a summary string describing the outcome
     """
-    print (f"Choose Action: (1) attack or (2) flee")
-    choice = input("Your Chouce: ").strip()
+    print (f"Choose Action: press 1 to attack or 2 to flee")
+    choice = input("Your Choice: ").strip()
+    
     # Attack choice
-    if choice == "attack":
+    if choice in ("1", "weapon"):
         zombie.health -= player.strength
         if zombie.health <= 0:
             zombie.health = 0
             print (f"You attacked the zombie for {player.strength} damage. Zombie is dead!")
             return True, False, False
         else:
-            player.heatlh -= zombie.strength
+            player.health -= zombie.strength
             print (f"You attacked the zombie for {player.strength} damage. Zombie attacks back for {zombie.strength} damage.")
-            if player.heatlh < 0:
-                player.heatlh = 0
+            if player.health < 0:
+                player.health = 0
                 print("The zombie has killed you!")
                 return False, True, False
             return True, True, False  
+    
     # Flee choice
-    elif choice == "flee":
+    elif choice in ("2", "flee"):
         success = random.choice([True, False])
         if success:
             print (f"You successfully fled from the zombie!")
@@ -89,7 +91,7 @@ def zombie_interaction(player, zombie, new_strength):
     return player, zombie, summary
 
 
-def generate_item():
+def generate_item(player):
   #section for generating random loot with random benefits
   loot_type = random.choice(["weapon", "healthkit"])
   if loot_type == "weapon":
@@ -112,11 +114,13 @@ def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increa
 def play_round(player, round_num):
   zombie = spawn_zombies(round_num)
   boosted_strength = use_item(player)
+  new_strength = player.strength + boosted_strength
 
   #here will have choice to use an item
   while True:
+     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, new_strength)
      print (f"Choose Action: (1) attack or (2) flee")
-     choice = input("Your Chouce: ").strip()
+     choice = input("Your Choice: ").strip()
      player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, new_strength)
      if not player_alive:
        return False, False, False
@@ -142,6 +146,8 @@ def run_game(rounds=5):
         return
       if ran:
         print("you ran away, round over")
-  print (f"Game over, you survived {round}'s with a score of {score}")
+  print (f"Game over, you survived {rounds}'s with a score of {score}")
 
-  
+
+if __name__ == "__main__":
+    run_game()
