@@ -117,7 +117,7 @@ def play_round(player, round_num):
   while True:
      print (f"Choose Action: (1) attack or (2) flee")
      choice = input("Your Chouce: ").strip()
-     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, boosted_strength)
+     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, new_strength)
      if not player_alive:
        return False, False, False
      if player_ran:
