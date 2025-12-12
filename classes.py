@@ -63,9 +63,9 @@ def use_item(player):
   
   if choice in ("1", "weapon"):
     if player.inventory["weapons"]:
-            weapon_name = player.inventory["weapons"].pop(0)
-            if weapon_name in starter_weapon:
-                bonus = starter_weapon[weapon_name]
+            weapon_name, bonus = strongest_weapon(player)
+            if weapon_name:
+                player.inventory["weapons"].remove(weapon_name)
             else:
                 bonus = Random_Loot[weapon_name]
             print(f"You have a {weapon_name} that has +{bonus} strength")
