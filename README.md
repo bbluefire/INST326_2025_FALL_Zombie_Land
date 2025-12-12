@@ -35,11 +35,23 @@ No information outside of the INST326 course materials.
     mechanics, item generation, zombie spawning, and the main game loop. 
 
 ## Attribution
+--------------------------------------------------------------------------
 | Method/Function    | Student Name     | Techniques Demonstrated        |
 | ------------------ | ---------------- | ------------------------------ |
-| play_round         | Bethany Cruz     | Tuple Unpacking                |
-| spawn_zombies      | Kritagya Ghimire | Default Argument Values        |
-| use_item           | Ryan Money       | F-String Containing Expression |
-| zombie_interaction | Mariam Sanni     | Conditional Expressions        |
+| play_round         | Bethany Cruz     | Tuple Unpacking/               |
+| run_game           |                  | Conditional Logic              |
+|------------------------------------------------------------------------|
+| spawn_zombies/     |                  | Default Argument Values/       |
+| if main            | Kritagya Ghimire | User input handling +          |
+|                    |                  | normalization                  |
+|------------------------------------------------------------------------|
+| use_item/          |                  | F-String Containing Expression/| 
+| generate_item      | Ryan Money       | use of a key function with the |
+|                    |                  |  .keys and list                |
+|------------------------------------------------------------------------|
+| zombie_interaction/|                  |  Conditional Expressions/      |
+| strongest_weapon/  |  Mariam Sanni    |  Use of max() key function     |
+| auto_equip         |                  |                                |
+--------------------------------------------------------------------------
 
 
