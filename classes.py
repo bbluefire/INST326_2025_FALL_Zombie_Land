@@ -266,9 +266,26 @@ def auto_equip_strongest(player):
   
 ##determining zombie spawn
 def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increase=5):
-  health = start_health + round_num * 5
-  strength = start_strength + round_num * strength_increase
-  print (f"New Zombie Alert! Zombie Health = {health} Zombie Strength = {strength}.")
+  """ 
+  Spawn a zombie each round that gets stronger as the game progresses.
+  
+  Args: 
+  round_num(int): The current round number.
+  start_health(int): The start health of a zombie.
+  start_strength(int): The start strength.
+  strength_increase(int): The strenght increase of the zombie.
+  
+  Retuns:
+  Zombie: A new instance of a zombie.
+  
+  Author: Kritagya Ghimire
+  
+  
+  
+  """
+  health = start_health + round_num * 5 # Zombies health increases 
+  strength = start_strength + round_num * strength_increase # Zombies attack power increases
+  print (f"New Zombie Alert! Zombie Health = {health} Zombie Strength = {strength}.") # New zombie
   return Zombie(health, strength)
 
 
@@ -324,8 +341,12 @@ def run_game(rounds=5):
 
 
 if __name__ == "__main__":
-  while True:
-    final_score = run_game()
+    """ Runs the game, and asks player if they want to keep playing or exit.
+    
+    Author: Kritagya Ghimire
+    
+    """
+    final_score = run_game() 
     
     print("Hey Soldier, would you want to play again?")
     choice = input("(1) to play again or (2) Leave: ").strip().lower()
