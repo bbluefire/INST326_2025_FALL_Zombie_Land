@@ -178,6 +178,17 @@ def zombie_interaction(player, zombie, new_strength):
 
 
 def generate_item(player):
+  """function for generating either a healthkit or weapon
+
+  Args:
+      player (obj): an instance of the Player class
+      
+  Returns:
+  N/a
+  
+  Author: Ryan Money
+  Technique: use of a key function with the .keys and list
+  """
   #section for generating random loot with random benefits
   loot_type = random.choice(["weapon", "healthkit"])
   
