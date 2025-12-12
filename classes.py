@@ -44,7 +44,17 @@ class Zombie:
     return self.health > 0
   
 def use_item(player):
+  """ A function that allows the player to choose one of three options: use a weapon, use a healthkit, use neither.
+
+  Args:
+  player(obj): an instance of the Player class
+
+  Returns:
+  int: returns the bonus damage for the player if the choice is a weapon
+  None: returns none if the choice is healthkit or neither
   
+
+  """
   print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
   
   choice = input("Your choice: ").strip().lower()
@@ -60,7 +70,7 @@ def use_item(player):
             return bonus
     else:
       print("You have no weapons")
-      return 0
+      return None
 
   elif choice in ("2", "healthkit"):
     if player.health == player.max_health:
@@ -87,7 +97,7 @@ def use_item(player):
             return bonus
         else:
           print("You have no weapons")
-          return 0
+          return None
 
     elif choice2 in ("2", "healthkit"):
         if player.health == player.max_health:
@@ -101,14 +111,14 @@ def use_item(player):
                 print (f"You used a health kit for + 20 health, new health is {player.health}")
             else:
                 print("You have no healthkits")
-        return 0
+        return None
     else:
       print("You fight normally.")
-      return 0      
+      return None     
   
   else:
     print("You fight normally.")
-    return 0
+    return None
   
     
 
