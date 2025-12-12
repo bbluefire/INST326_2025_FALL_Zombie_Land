@@ -63,7 +63,7 @@ def use_item(player):
     if choice in ("1", "weapon"):
         if player.inventory["weapons"]:
             # auto-equip the strongest weapon
-            bonus = auto_equip_strongest(player)
+            _, bonus = auto_equip_strongest(player)
             return bonus
         else:
             print("You have no weapons")
@@ -88,9 +88,8 @@ def use_item(player):
 
         if choice2 in ("1", "weapon"):
             if player.inventory["weapons"]:
-                weapon_name = player.inventory["weapons"].pop(0)
-                bonus = starter_weapon.get(weapon_name, Random_Loot.get(weapon_name, 0))
-                print(f"You have a {weapon_name} that has +{bonus} strength")
+                # auto-equip strongest weapon here as well
+                _, bonus = auto_equip_strongest(player)
                 return bonus
             else:
                 print("You have no weapons")
@@ -206,8 +205,12 @@ def generate_item(player):
   
   if loot_type == "weapon":
     weapon = random.choice(list(Random_Loot.keys()))
+    if player.inventory["weapons"]:
+        dropped_weapon = player.inventory["weapons"].pop(0)
+        print(f"You found a new {weapon}!(+{Random_Loot[weapon]} strength). You dropped your {dropped_weapon}.")
+    else:
+        print(f"You found a new {weapon}!(+{Random_Loot[weapon]} strength).")
     player.inventory["weapons"].append(weapon)
-    print(f"You found a new {weapon}!(+{Random_Loot[weapon]} strength). You had to drop your previous weapon.")
   else:
     print("You found a healthkit")
     player.inventory["healthkits"].append("healthkit")
@@ -333,4 +336,6 @@ if __name__ == "__main__":
     else:
       print("Thanks for player soldier!")
       break
+
+
               
