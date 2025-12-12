@@ -381,7 +381,7 @@ if __name__ == "__main__":
         print("Restarting New Game...")
         continue
       else:
-        print("Thanks for player soldier!")
+        print("Thanks for playing soldier!")
         break
 
 
