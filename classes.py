@@ -135,22 +135,32 @@ def zombie_interaction(player, zombie, new_strength):
 
     Returns:
         tuple: Updated player dictionary, updated zombie dictionary, and a summary string describing the outcome
+        
+    Author: Mariam Sanni
+    Technique: Conditional expressions
+    
     """
-    print (f"Choose Action: Press (1) to Attack or (2) to Flee:")
+    print("Choose Action: Press (1) to Attack or (2) to Flee:")
     choice = input("Your Choice: ").strip()
     
     if choice in ("1", "weapon"):
         zombie.health -= new_strength
+        # Conditional expression to track zombie status
+        zombie_status = "dead" if zombie.health <= 0 else "alive"
         
         if zombie.health <= 0:
             zombie.health = 0
-            print (f"You attacked the zombie for {new_strength} damage. Zombie is dead!")
+            print(f"You attacked the zombie for {new_strength} damage. Zombie is {zombie_status}!")
             return True, False, False
     
         player.health -= zombie.strength
-        print (f"You attacked the zombie for {new_strength} damage. Zombie attacks back for {zombie.strength} damage.")
-        print (f"Your health is now at {player.health}.")
-        print (f"Zombie health is now at {zombie.health}")
+        # Conditional expression to track player status
+        player_status = "dead" if player.health <= 0 else "alive"
+
+        print(f"You attacked the zombie for {new_strength} damage. Zombie attacks back for {zombie.strength} damage.")
+        print(f"Your health is now at {player.health} ({player_status}).")
+        print(f"Zombie health is now at {zombie.health} ({zombie_status}).")
+        
         if player.health <= 0:
             player.health = 0
             print("The zombie has killed you!")
@@ -161,20 +171,26 @@ def zombie_interaction(player, zombie, new_strength):
     elif choice in ("2", "flee"):
         success = random.choice([True, False])
         if success:
-            print (f"You successfully fled from the zombie!")
+            print("You successfully fled from the zombie!")
             return True, zombie.isalive(), True
         else:
             player.health -= zombie.strength
-            print (f"You tried to flee but failed. Zombie attacks for {zombie.strength} damage.")
+            # Conditional expression to track player status after failed flee
+            player_status = "dead" if player.health <= 0 else "alive"
+
+            print(f"You tried to flee but failed. Zombie attacks for {zombie.strength} damage.")
+            print(f"Your health is now at {player.health} ({player_status}).")
             
             if player.health <= 0:
                 print("You died while fleeing!")
                 return False, True, False
         
             return True, zombie.isalive(), True
+
     # Return the updated info
     print("You can't do that! You lose the current turn.")
     return True, zombie.isalive(), False
+
 
 
 def generate_item(player):
@@ -199,6 +215,32 @@ def generate_item(player):
   else:
     print("You found a healthkit")
     player.inventory["healthkits"].append("healthkit")
+    
+#User's strongest weapon
+def strongest_weapon(player, show=False):
+    """
+    Find and return the player's strongest weapon.
+
+    Args:
+        player (Player): The player with weapons in their inventory.
+        show (bool, optional): If True, prints the strongest weapon. Defaults to False.
+
+    Returns:
+        tuple: (weapon_name, strength) or (None, 0) if no weapons.
+        
+   Author: Mariam Sanni
+   Technique: Use of max() key function
+   
+    """
+    weapon_name = max(player.inventory["weapons"], key=lambda w: Random_Loot.get(w, starter_weapon.get(w, 0)), default=None)
+    strength = Random_Loot.get(weapon_name, starter_weapon.get(weapon_name, 0)) if weapon_name else 0
+    if show and weapon_name:
+        print(f"Your strongest weapon is {weapon_name} (+{strength} strength)")
+    return weapon_name, strength
+
+
+
+
   
 ##determining zombie spawn
 def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increase=5):
