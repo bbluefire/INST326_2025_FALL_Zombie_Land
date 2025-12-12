@@ -292,23 +292,40 @@ def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increa
 
 ##what happens in each round
 def play_round(player, round_num):
-  zombie = spawn_zombies(round_num)
-  boosted_strength = use_item(player)
-  new_strength = player.strength + (boosted_strength or 0)
+    """ 
+    Function to handle the logic of a single round in the game.
+    
+    Args:
+        player (Player): An instance of the Player class representing the 
+            player.
+        round_num (int): The current round number.
+    
+    Returns:
+        tuple: A tuple containing three boolean values:
+            - player_alive (bool): True if the player is alive after the round, 
+                False otherwise.
+            - killed_zombie (bool): True if the zombie was killed, False 
+                otherwise.
+            - player_ran (bool): True if the player ran away, False otherwise.
+    Author: Bethany Cruz
+    """
+    zombie = spawn_zombies(round_num)
+    boosted_strength = use_item(player)
+    new_strength = player.strength + (boosted_strength or 0)
 
-  #here will have choice to use an item
-  while True:
-     player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, new_strength)
-     
-     if not player_alive:
-       return False, False, False
-     
-     if player_ran:
-       return True, False, True
-     
-     if not zombie_alive:
-       generate_item(player)
-       return True, True, False
+    #here will have choice to use an item
+    while True:
+        player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, new_strength)
+        
+        if not player_alive:
+            return False, False, False
+        
+        if player_ran:
+            return True, False, True
+        
+        if not zombie_alive:
+            generate_item(player)
+        return True, True, False
  
 
 
