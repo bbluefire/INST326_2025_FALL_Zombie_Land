@@ -281,7 +281,7 @@ def spawn_zombies(round_num, final_round, start_health=50, start_strength=10,
     Retuns:
     Zombie: A new instance of a zombie.
     
-    Author: Kritagya Ghimire
+    Author: Kritagya Ghimire & Bethany Cruz
     """
     health = start_health + round_num * 5 # Zombies health increases 
     strength = start_strength + round_num * strength_increase #attack power increases
