@@ -38,16 +38,18 @@ No information outside of the INST326 course materials.
 --------------------------------------------------------------------------
 | Method/Function    | Student Name     | Techniques Demonstrated        |
 | ------------------ | ---------------- | ------------------------------ |
-| play_round         | Bethany Cruz     | Tuple Unpacking/               |
-| run_game           |                  | Conditional Logic              |
+| play_round         |                  | Tuple Unpacking/               |
+| run_game           |  Bethany Cruz    | Conditional Logic              |
+| __init__ (player)  |                  |                                |
 |------------------------------------------------------------------------|
 | spawn_zombies/     |                  | Default Argument Values/       |
 | if main            | Kritagya Ghimire | User input handling +          |
-|                    |                  | normalization                  |
+| isalive (player)   |                  | normalization                  |
+| isalive (zombie)   |                  |                                |
 |------------------------------------------------------------------------|
 | use_item/          |                  | F-String Containing Expression/| 
 | generate_item      | Ryan Money       | use of a key function with the |
-|                    |                  |  .keys and list                |
+| __init__ (zombie)  |                  |  .keys and list                |
 |------------------------------------------------------------------------|
 | zombie_interaction/|                  |  Conditional Expressions/      |
 | strongest_weapon/  |  Mariam Sanni    |  Use of max() key function     |
