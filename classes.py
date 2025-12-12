@@ -52,7 +52,9 @@ def use_item(player):
   Returns:
   int: returns the bonus damage for the player if the choice is a weapon
   None: returns none if the choice is healthkit or neither
-  
+
+  Author: Ryan Money
+  Technique: f-string containing expression
 
   """
   print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
