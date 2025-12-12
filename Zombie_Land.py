@@ -12,10 +12,11 @@ Random_Loot = {
     "Shotgun": 18,
     "RayGun": 25
 }
+print("Welcome to Zombie Land. Your mission is to survive the zombie attacks. Good luck soldier.")
 
 
 class Player:
-  
+
   def __init__(self, health, strength):
     
     self.health = health
@@ -66,7 +67,7 @@ def use_item(player):
             _, bonus = auto_equip_strongest(player)
             return bonus
         else:
-            print("You have no weapons")
+            print("You have no weapons. Time to use your fists.")
             return None
 
     elif choice in ("2", "healthkit"):
@@ -92,7 +93,7 @@ def use_item(player):
                 _, bonus = auto_equip_strongest(player)
                 return bonus
             else:
-                print("You have no weapons")
+                print("You have no weapons. Time to use your fists.")
                 return None
 
         elif choice2 in ("2", "healthkit"):
@@ -166,6 +167,7 @@ def zombie_interaction(player, zombie, new_strength):
     elif choice in ("2", "flee"):
         success = random.choice([True, False])
         if success:
+            stamina += 1
             print("You successfully fled from the zombie!")
             return True, zombie.isalive(), True
         else:
@@ -181,7 +183,7 @@ def zombie_interaction(player, zombie, new_strength):
                 return False, True, False
         
             return True, zombie.isalive(), True
-
+        
     # Return the updated info
     print("You can't do that! You lose the current turn.")
     return True, zombie.isalive(), False
@@ -265,36 +267,40 @@ def auto_equip_strongest(player):
 
   
 ##determining zombie spawn after a round
-def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increase=5):
-  """ 
-  Spawn a zombie each round that gets stronger as the game progresses.
-  
-  Args: 
-  round_num(int): The current round number.
-  start_health(int): The start health of a zombie.
-  start_strength(int): The start strength.
-  strength_increase(int): The strenght increase of the zombie.
-  
-  Retuns:
-  Zombie: A new instance of a zombie.
-  
-  Author: Kritagya Ghimire
-  
-  
-  
-  """
-  health = start_health + round_num * 5 # Zombies health increases 
-  strength = start_strength + round_num * strength_increase # Zombies attack power increases
-  print (f"New Zombie Alert! Zombie Health = {health} Zombie Strength = {strength}.") # New zombie
-  return Zombie(health, strength)
+def spawn_zombies(round_num, final_round, start_health=50, start_strength=10, 
+                  strength_increase=5):
+    """ 
+    Spawn a zombie each round that gets stronger as the game progresses.
+    
+    Args: 
+    round_num(int): The current round number.
+    start_health(int): The start health of a zombie.
+    start_strength(int): The start strength.
+    strength_increase(int): The strenght increase of the zombie.
+    
+    Retuns:
+    Zombie: A new instance of a zombie.
+    
+    Author: Kritagya Ghimire
+    """
+    health = start_health + round_num * 5 # Zombies health increases 
+    strength = start_strength + round_num * strength_increase #attack power increases
+    #boss zombie chance only in final round
+    is_boss = False
+    if round_num == final_round and random.random() < 0.5:  #50% chance
+            health *= 3
+            strength *= 3
+            is_boss = True
+            print("!WARNING! BOSS ZOMBIE SPAWNED!")
+    print (f"New Zombie Alert! Zombie Health = {health} Zombie Strength = {strength}.") # New zombie
+    return Zombie(health, strength)
 
 
 
 ##what happens in each round
-def play_round(player, round_num):
+def play_round(player, round_num, final_round=5):
     """ 
     Function to handle the logic of a single round in the game.
-    
     Args:
         player (Player): An instance of the Player class representing the 
             player.
@@ -302,21 +308,20 @@ def play_round(player, round_num):
     
     Returns:
         tuple: A tuple containing three boolean values:
-            - player_alive (bool): True if the player is alive after the round, 
+            - player_alive: True if the player is alive after the round, 
                 False otherwise.
-            - killed_zombie (bool): True if the zombie was killed, False 
+            - killed_zombie: True if the zombie was killed, False 
                 otherwise.
-            - player_ran (bool): True if the player ran away, False otherwise.
+            - player_ran: True if the player ran away, False otherwise.
     Author: Bethany Cruz
     """
-    zombie = spawn_zombies(round_num)
+    zombie = spawn_zombies(round_num, final_round)
     boosted_strength = use_item(player)
     new_strength = player.strength + (boosted_strength or 0)
-
     #here will have choice to use an item
     while True:
-        player_alive, zombie_alive, player_ran = zombie_interaction(player, zombie, new_strength)
-        
+        player_alive, zombie_alive, player_ran = zombie_interaction(player, 
+        zombie, new_strength)
         if not player_alive:
             return False, False, False
         
@@ -325,22 +330,27 @@ def play_round(player, round_num):
         
         if not zombie_alive:
             generate_item(player)
-        return True, True, False
+            return True, True, False
  
 
 
 ##running the game on x rounds
 def run_game(rounds=5):
+  """Function to run the game for a set number of rounds
+      Args:
+        rounds(int): number of rounds to play the game for
+      Returns:
+        score(int): final score of the player after all rounds
+    Author: Bethany Cruz
+  """
   player = Player(health=100, strength=20)
   score = 0
   
   print("Game Start!")
-  
   for round_num in range(1, rounds + 1):
-    
     print (f"Round {round_num}")
-    
     player_alive, killed_zombie, player_ran = play_round(player, round_num)
+    
     if not player_alive:
         print (f"You lost, final score: {score}")
         return
@@ -349,10 +359,8 @@ def run_game(rounds=5):
       score += 1
       print (f"Zombie killed score = {score}")
       
-     
     if player_ran:
       print("you ran away, round over")
-  
   print (f"Game over, you survived {rounds}'s with a score of {score}")
   return score
 
