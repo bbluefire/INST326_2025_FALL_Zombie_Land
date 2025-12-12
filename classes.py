@@ -66,8 +66,6 @@ def use_item(player):
             weapon_name, bonus = strongest_weapon(player)
             if weapon_name:
                 player.inventory["weapons"].remove(weapon_name)
-            else:
-                bonus = Random_Loot[weapon_name]
             print(f"You have a {weapon_name} that has +{bonus} strength")
             return bonus
     else:
@@ -255,7 +253,7 @@ def spawn_zombies(round_num, start_health=50, start_strength=10, strength_increa
 def play_round(player, round_num):
   zombie = spawn_zombies(round_num)
   boosted_strength = use_item(player)
-  new_strength = player.strength + boosted_strength
+  new_strength = player.strength + (boosted_strength or 0)
 
   #here will have choice to use an item
   while True:
