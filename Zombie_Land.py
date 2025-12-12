@@ -12,7 +12,11 @@ Random_Loot = {
     "Shotgun": 18,
     "RayGun": 25
 }
-print("Welcome to Zombie Land. Your mission is to survive the zombie attacks. Good luck soldier.")
+print("\n\n====================================")
+print(" Welcome to ZOMBIE LAND ")
+print(" Your mission is to survive the zombie attacks.")
+print(" Good luck, soldier.")
+print("====================================\n\n")
 
 
 class Player:
@@ -346,9 +350,9 @@ def run_game(rounds=5):
   player = Player(health=100, strength=20)
   score = 0
   
-  print("Game Start!")
+  print("\n--- GAME START ---\n")
   for round_num in range(1, rounds + 1):
-    print (f"Round {round_num}")
+    print(f"\n===== ROUND {round_num} =====\n")
     player_alive, killed_zombie, player_ran = play_round(player, round_num)
     
     if not player_alive:
