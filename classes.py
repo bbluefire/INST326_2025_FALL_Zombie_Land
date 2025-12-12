@@ -44,81 +44,79 @@ class Zombie:
     return self.health > 0
   
 def use_item(player):
-  """ A function that allows the player to choose one of three options: use a weapon, use a healthkit, use neither.
+    """ A function that allows the player to choose one of three options: use a weapon, use a healthkit, use neither.
 
-  Args:
-  player(obj): an instance of the Player class
+    Args:
+        player(obj): an instance of the Player class
 
-  Returns:
-  int: returns the bonus damage for the player if the choice is a weapon
-  None: returns none if the choice is healthkit or neither
+    Returns:
+        int: returns the bonus damage for the player if the choice is a weapon
+        None: returns none if the choice is healthkit or neither
 
-  Author: Ryan Money
-  Technique: f-string containing expression
-
-  """
-  print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
-  
-  choice = input("Your choice: ").strip().lower()
-  
-  if choice in ("1", "weapon"):
-    if player.inventory["weapons"]:
-            weapon_name, bonus = strongest_weapon(player)
-            if weapon_name:
-                player.inventory["weapons"].remove(weapon_name)
-            print(f"You have a {weapon_name} that has +{bonus} strength")
-            return bonus
-    else:
-      print("You have no weapons")
-      return None
-
-  elif choice in ("2", "healthkit"):
-    if player.health == player.max_health:
-        print("You're at max health, You cannot use a healthkit.")
-    else:
-      if player.inventory["healthkits"]:
-        player.inventory["healthkits"].pop(0)
-        player.health += 20
-        if player.health > player.max_health:
-            player.health = player.max_health
-        print (f"You used a health kit for + 20 health, new health is {player.health}")
-      else:
-        print("You have no healthkits")
-    
+    Author: Ryan Money
+    Technique: f-string containing expression
+    """
     print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
-  
-    choice2 = input("Your choice: ").strip().lower()
-  
-    if choice2 in ("1", "weapon"):
+
+    choice = input("Your choice: ").strip().lower()
+
+    if choice in ("1", "weapon"):
         if player.inventory["weapons"]:
-            weapon_name = player.inventory["weapons"].pop(0)
-            bonus = starter_weapon.get(weapon_name, Random_Loot.get(weapon_name, 0))
-            print(f"You have a {weapon_name} that has +{bonus} strength")
+            # auto-equip the strongest weapon
+            bonus = auto_equip_strongest(player)
             return bonus
         else:
-          print("You have no weapons")
-          return None
+            print("You have no weapons")
+            return None
 
-    elif choice2 in ("2", "healthkit"):
+    elif choice in ("2", "healthkit"):
         if player.health == player.max_health:
-          print("You're at max health, You cannot use a healthkit.")
+            print("You're at max health, You cannot use a healthkit.")
         else:
             if player.inventory["healthkits"]:
                 player.inventory["healthkits"].pop(0)
                 player.health += 20
                 if player.health > player.max_health:
-                  player.health = player.max_health
-                print (f"You used a health kit for + 20 health, new health is {player.health}")
+                    player.health = player.max_health
+                print(f"You used a health kit for + 20 health, new health is {player.health}")
             else:
                 print("You have no healthkits")
-        return None
+
+        print("Before combat choose: (1) Weapon (2) Healthkit (3) None")
+
+        choice2 = input("Your choice: ").strip().lower()
+
+        if choice2 in ("1", "weapon"):
+            if player.inventory["weapons"]:
+                weapon_name = player.inventory["weapons"].pop(0)
+                bonus = starter_weapon.get(weapon_name, Random_Loot.get(weapon_name, 0))
+                print(f"You have a {weapon_name} that has +{bonus} strength")
+                return bonus
+            else:
+                print("You have no weapons")
+                return None
+
+        elif choice2 in ("2", "healthkit"):
+            if player.health == player.max_health:
+                print("You're at max health, You cannot use a healthkit.")
+            else:
+                if player.inventory["healthkits"]:
+                    player.inventory["healthkits"].pop(0)
+                    player.health += 20
+                    if player.health > player.max_health:
+                        player.health = player.max_health
+                    print(f"You used a health kit for + 20 health, new health is {player.health}")
+                else:
+                    print("You have no healthkits")
+            return None
+        else:
+            print("You fight normally.")
+            return None
+
     else:
-      print("You fight normally.")
-      return None     
-  
-  else:
-    print("You fight normally.")
-    return None
+        print("You fight normally.")
+        return None
+
   
     
 
@@ -235,7 +233,30 @@ def strongest_weapon(player, show=False):
     if show and weapon_name:
         print(f"Your strongest weapon is {weapon_name} (+{strength} strength)")
     return weapon_name, strength
+  
+def auto_equip_strongest(player):
+    """
+    Automatically equips the strongest weapon from the player's inventory.
 
+    Args:
+        player (Player): The player object.
+
+    Returns:
+        tuple: (weapon_name, bonus_strength) of the equipped weapon, or (None, 0) if no weapons.
+
+    Side effects:
+        Removes the equipped weapon from inventory.
+        Prints a message showing the equipped weapon.
+        
+    Author: Mariam Sanni
+    """
+    weapon_name, bonus = strongest_weapon(player)
+    if weapon_name:
+        # Remove the weapon from inventory immediately
+        player.inventory["weapons"].remove(weapon_name)
+        print(f"Auto-equipped {weapon_name} (+{bonus} strength)!")
+        return weapon_name, bonus
+    return None, 0
 
 
 
