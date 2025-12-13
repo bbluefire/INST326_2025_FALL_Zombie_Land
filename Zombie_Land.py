@@ -171,7 +171,6 @@ def zombie_interaction(player, zombie, new_strength):
     elif choice in ("2", "flee"):
         success = random.choice([True, False])
         if success:
-            stamina += 1
             print("You successfully fled from the zombie!")
             return True, zombie.isalive(), True
         else:
