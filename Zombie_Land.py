@@ -364,7 +364,7 @@ def run_game(rounds=5):
       
     if player_ran:
       print("you ran away, round over")
-  print (f"Game over, you survived {rounds}'s with a score of {score}")
+  print (f"Game over, you survived {rounds} rounds with a score of {score}")
   return score
 
 
